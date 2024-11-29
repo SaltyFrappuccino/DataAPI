@@ -7,7 +7,6 @@ class ML_View(HTTPMethodView):
         return json({"success": False, "message": "method not available"})
 
     async def post(self, request):
-        """Обработка POST-запросов"""
         data = request.json
         return json({"success": True, data: data})
 

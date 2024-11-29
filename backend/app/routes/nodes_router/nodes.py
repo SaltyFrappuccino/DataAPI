@@ -110,7 +110,7 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
             session.add(model_node)
             await session.commit()
 
-            result = self.get_data(self.get_data_by_response_created(model_node))
+            result = self.get_data(self.get_data_by_response_created(model_node, base_node))
             return result
 
     @staticmethod
@@ -121,8 +121,7 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
             return response.json()
 
     @staticmethod
-    def get_data_by_response_created(model_node: ModelNode) -> dict:
-        base_node = model_node.base_node
+    def get_data_by_response_created(model_node: ModelNode, base_node: BaseNode) -> dict:
         return {
             "id": base_node.id,
             "base_node_type": base_node.base_node_type,
