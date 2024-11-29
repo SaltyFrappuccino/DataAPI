@@ -28,6 +28,26 @@ services:
         ports:
             - 2309:2309
 
+    sanic_mvp:
+        build: ""
+        command: uvicorn backend.app.sanic_app.app:application --host 0.0.0.0 --port 8001 --reload --timeout-keep-alive 1000
+        volumes:
+            - .:/backend/app
+        env_file:
+            - backend/.env
+        logging:
+            options:
+                max-size: 10m
+        deploy:
+            resources:
+                reservations:
+                    memory: 20M
+        depends_on:
+            - fast_api_mvp
+            - db_mvp
+        ports:
+            - 8001:8001
+
     db_mvp:
         restart: always
         image: postgres:15.3
@@ -40,6 +60,15 @@ services:
             - 8585:8080
         logging:
           driver: none
+
+    adminer_mvp:
+        container_name: adminer_mvp
+        image: adminer
+        restart: always
+        depends_on:
+            - db_mvp
+        ports:
+            - 8111:8080
 
     broker:
         image: apache/kafka:latest

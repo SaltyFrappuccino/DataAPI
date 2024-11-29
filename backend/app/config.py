@@ -11,3 +11,5 @@ DATABASE_PORT = os.getenv('SQL_PORT')
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
 PRODUCE_TOPIC = os.getenv("WEB_TOPIC")
+
+SANIC_BASE_URL = 'http://sanic_mvp:8001'

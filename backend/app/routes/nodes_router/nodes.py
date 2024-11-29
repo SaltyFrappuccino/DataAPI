@@ -3,6 +3,7 @@ from fastapi_utils.cbv import cbv
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from backend.app.config import SANIC_BASE_URL
 from backend.app.models import DataSourceNode, ModelNode, BaseNode
 from backend.app.orm_sender.manager_sqlalchemy import ManagerSQLAlchemy
 from backend.app.routes.main import MainRouterMIXIN
@@ -94,7 +95,7 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
             await session.flush()
 
             start_time = time.time()
-            await self.send_data_to_ml()
+            data_from_ml: dict = await self.send_data_to_ml()
             end_time = time.time()
 
             model_node: ModelNode = ModelNode(
@@ -113,9 +114,11 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
             return result
 
     @staticmethod
-    async def send_data_to_ml():
+    async def send_data_to_ml(model_name: str = 'model_name') -> dict:
         async with httpx.AsyncClient(verify=False) as client:
-            pass
+            data = {'test': 'test'}
+            response = await client.post(f"{SANIC_BASE_URL}/api/ml/{model_name}", json=data)
+            return response.json()
 
     @staticmethod
     def get_data_by_response_created(model_node: ModelNode) -> dict:
