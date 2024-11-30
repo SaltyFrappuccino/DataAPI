@@ -65,7 +65,6 @@ class ModelNodeBase(BaseNodeBase):
 class ModelNodeCreate(BaseModel):
     label: str = Field(..., description="Название базового узла")
     inputs: Optional[Dict[str, List[str]]] = Field(None, description="Входные данные узла")
-    outputs: Optional[Dict[str, List[str]]] = Field(None, description="Выходные данные узла")
     base_node_type: str = Field(..., description="Тип базового узла")
 
     model_node_type: str = Field(..., description="Тип узла")

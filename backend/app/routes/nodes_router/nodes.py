@@ -85,18 +85,22 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
     )
     async def post(self, request: Request, response: Response, body: ModelNodeCreate):
         async with AsyncSession(self.engine, autoflush=False, expire_on_commit=False) as session:
+            start_time = time.time()
+            data_from_ml: dict = await self.send_data_to_ml(
+                {
+                    'model_id': body.model_id
+                } | body.inputs
+            )
+            end_time = time.time()
+
             base_node = BaseNode(
                 base_node_type=body.base_node_type,
                 label=body.label,
                 inputs=body.inputs,
-                outputs=body.outputs,
+                outputs=data_from_ml,
             )
             session.add(base_node)
             await session.flush()
-
-            start_time = time.time()
-            data_from_ml: dict = await self.send_data_to_ml()
-            end_time = time.time()
 
             model_node: ModelNode = ModelNode(
                 id=base_node.id,
@@ -114,10 +118,9 @@ class ModelNodeRouter(MainRouterMIXIN, ManagerSQLAlchemy):
             return result
 
     @staticmethod
-    async def send_data_to_ml(model_name: str = 'model_name') -> dict:
+    async def send_data_to_ml(data: dict) -> dict:
         async with httpx.AsyncClient(verify=False) as client:
-            data = {'test': 'test'}
-            response = await client.post(f"{SANIC_BASE_URL}/api/ml/{model_name}", json=data)
+            response = await client.post(f"{SANIC_BASE_URL}/api/ml", json=data)
             return response.json()
 
     @staticmethod
