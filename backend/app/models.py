@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, Text, String, JSON, Boolean, Enum, ForeignKey, Float
+from sqlalchemy import Column, Integer, Text, String, JSON, Boolean, Enum, ForeignKey, Float, Table
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 from enum import Enum as PyEnum
 
@@ -7,6 +8,120 @@ from enum import Enum as PyEnum
 Base = declarative_base()
 
 
+class MLModel(Base):
+    __tablename__ = 'ml_model'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text)
+    version = Column(String, nullable=False)
+
+    logs = relationship('Log', back_populates='model', cascade='all, delete-orphan')
+    contracts = relationship('Contract', secondary='ml_model_contract', back_populates='models')
+
+
+class Contract(Base):
+    __tablename__ = 'contract'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text)
+    data = Column(JSON, nullable=False)
+
+    logs = relationship('Log', back_populates='contract', cascade='all, delete-orphan')
+    models = relationship('MLModel', secondary='ml_model_contract', back_populates='contracts')
+    connections = relationship('DBConnection', secondary='contract_connection', back_populates='contracts')
+    transformation_instructions = relationship(
+        'DataTransformationInstruction',
+        secondary='contract_transformation_instruction',
+        back_populates='contracts'
+    )
+    artifacts = relationship('Artifact', secondary='contract_artifact', back_populates='contracts')
+
+
+class DBConnection(Base):
+    __tablename__ = 'db_connection'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    db_type = Column(String(50), nullable=False)
+    host = Column(String(255))
+    port = Column(Integer)
+    database = Column(String(255))
+    username = Column(String(255))
+    password = Column(String(255))
+
+    contracts = relationship('Contract', secondary='contract_connection', back_populates='connections')
+
+
+class DataTransformationInstruction(Base):
+    __tablename__ = 'data_transformation_instruction'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    data = Column(JSON, nullable=False)
+
+    logs = relationship('Log', back_populates='transformation_instruction', cascade='all, delete-orphan')
+    contracts = relationship(
+        'Contract',
+        secondary='contract_transformation_instruction',
+        back_populates='transformation_instructions'
+    )
+
+
+class Artifact(Base):
+    __tablename__ = 'artifact'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    data = Column(JSON, nullable=False)
+
+    contracts = relationship('Contract', secondary='contract_artifact', back_populates='artifacts')
+
+
+class Log(Base):
+    __tablename__ = 'log'
+
+    id = Column(Integer, primary_key=True)
+    model_id = Column(Integer, ForeignKey('ml_model.id', ondelete='CASCADE'), nullable=False)
+    transformation_instruction_id = Column(Integer, ForeignKey('data_transformation_instruction.id', ondelete='SET NULL'))
+    contract_id = Column(Integer, ForeignKey('contract.id', ondelete='CASCADE'), nullable=False)
+    data = Column(JSON, nullable=False)
+
+    model = relationship('MLModel', back_populates='logs')
+    transformation_instruction = relationship('DataTransformationInstruction', back_populates='logs')
+    contract = relationship('Contract', back_populates='logs')
+
+
+ml_model_contract = Table(
+    'ml_model_contract', Base.metadata,
+    Column('ml_model_id', Integer, ForeignKey('ml_model.id', ondelete='CASCADE'), primary_key=True),
+    Column('contract_id', Integer, ForeignKey('contract.id', ondelete='CASCADE'), primary_key=True)
+)
+
+
+contract_connection = Table(
+    'contract_connection', Base.metadata,
+    Column('contract_id', Integer, ForeignKey('contract.id', ondelete='CASCADE'), primary_key=True),
+    Column('connection_id', Integer, ForeignKey('db_connection.id', ondelete='CASCADE'), primary_key=True)
+)
+
+
+contract_transformation_instruction = Table(
+    'contract_transformation_instruction', Base.metadata,
+    Column('contract_id', Integer, ForeignKey('contract.id', ondelete='CASCADE'), primary_key=True),
+    Column('transformation_instruction_id', Integer, ForeignKey('data_transformation_instruction.id', ondelete='CASCADE'), primary_key=True)
+)
+
+
+contract_artifact = Table(
+    'contract_artifact', Base.metadata,
+    Column('contract_id', Integer, ForeignKey('contract.id', ondelete='CASCADE'), primary_key=True),
+    Column('artifact_id', Integer, ForeignKey('artifact.id', ondelete='CASCADE'), primary_key=True)
+)
+
+
+# ------------------------------------------ old models ------------------------------------------
 class BaseNode(Base):
     __tablename__ = "base_node"
 
