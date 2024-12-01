@@ -1,0 +1,48 @@
+@import "../../variables.scss";
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 12px;
+  background-color: $translucent-gray;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px $shadow-color;
+  color: $white-color;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 12px $shadow-color;
+  }
+}
+
+.statusButton {
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-weight: bold;
+  border: none;
+  color: $white-color;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0px 2px 10px $shadow-color;
+  }
+}
+
+.active {
+  background-color: $green-color;
+}
+
+.pending {
+  background-color: #ffcc00; // Жёлтый
+}
+
+.inactive {
+  background-color: $light-gray-color;
+}
+
+.error {
+  background-color: #ff4d4f; // Красный
+}

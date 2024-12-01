@@ -1,0 +1,59 @@
+@import "../../variables";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: $dark-gray-color;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  color: $white-color;
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: $green-color;
+  }
+
+  input,
+  select {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    background: $input-background-color;
+    color: $white-color;
+  }
+
+  button {
+    padding: 10px 16px;
+    background: $green-color;
+    color: $white-color;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: lighten($green-color, 10%);
+    }
+  }
+}
+
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.checkButton {
+  background: #ffd85e;
+  color: $white-color;
+
+  &:hover {
+    background: lighten(#a5ff51, 10%);
+  }
+}

@@ -1,0 +1,119 @@
+.container {
+  padding: 20px;
+  background: linear-gradient(to bottom right, #1c1c1c, #3a3a3a);
+  min-height: 91vh;
+  color: #fff;
+
+  h1 {
+    color: #5cb85c;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #333;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 97%;
+  color: #fff;
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #5cb85c;
+  }
+
+  input,
+  textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #444;
+    color: #fff;
+    margin-bottom: 10px;
+
+    &::placeholder {
+      color: #bbb;
+    }
+
+    &:focus {
+      outline: 2px solid #5cb85c;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    padding: 10px 16px;
+    background: #5cb85c;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: lighten(#5cb85c, 10%);
+    }
+  }
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.removeButton {
+  background: #e74c3c;
+  color: #fff;
+
+  &:hover {
+    background: lighten(#e74c3c, 10%);
+  }
+}
+
+.addButton {
+  background: #27ae60;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: lighten(#27ae60, 10%);
+  }
+}
+
+.generateButton {
+  background: #f39c12;
+  color: #fff;
+
+  &:hover {
+    background: lighten(#f39c12, 10%);
+  }
+}
+
+.jsonOutput {
+  margin-top: 30px;
+  background: #333;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 96%;
+  color: #fff;
+
+  pre {
+    background: #2c3e50;
+    padding: 10px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

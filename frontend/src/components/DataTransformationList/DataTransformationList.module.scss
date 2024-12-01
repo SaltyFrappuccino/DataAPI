@@ -1,0 +1,18 @@
+@import '../../variables.scss';
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.headerRow {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  padding: 12px;
+  background-color: $light-gray-color;
+  color: $white-color;
+  font-weight: bold;
+  border-radius: 6px;
+  box-shadow: 0px 2px 6px $shadow-color;
+}

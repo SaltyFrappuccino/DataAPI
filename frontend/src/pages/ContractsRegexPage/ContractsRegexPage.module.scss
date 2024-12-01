@@ -1,0 +1,78 @@
+@import '../../variables.scss';
+
+.container {
+  padding: 20px;
+  background: linear-gradient(to bottom right, $black-color, $dark-gray-color);
+  min-height: 91vh;
+  color: $white-color;
+}
+
+h1 {
+  color: $green-color;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.searchButton {
+  background-color: $secondary-green-color;
+  color: $white-color;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: lighten($secondary-green-color, 10%);
+  }
+
+  &:active {
+    background-color: $light-gray-color;
+    color: $black-color;
+  }
+}
+
+.addButton {
+  background-color: $green-color;
+  color: $white-color;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: lighten($green-color, 10%);
+  }
+
+  &:active {
+    background-color: $light-gray-color;
+    color: $black-color;
+  }
+}
+
+.searchInput {
+  flex: 1;
+  padding: 12px;
+  background-color: $light-gray-color;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  color: $white-color;
+  box-shadow: inset 0px 2px 6px $shadow-color;
+
+  &::placeholder {
+    color: lighten($light-gray-color, 20%);
+  }
+
+  &:focus {
+    outline: 2px solid $green-color;
+  }
+}

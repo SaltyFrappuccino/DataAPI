@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+.dndflow {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 10px;
+    background-color: #2d2d2d;
+    border-right: 2px solid #2ac673;
+}
+
+.sidebar h2 {
+    color: #2ac673;
+    margin-bottom: 20px;
+}
+
+.dndnode {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2ac673;
+    color: #2d2d2d;
+    border-radius: 5px;
+    text-align: center;
+    cursor: grab;
+    font-weight: bold;
+}
+
+.reactflow-wrapper {
+    flex: 1;
+    height: 100%;
+    background-color: #1d1d1d;
+}
+
+.react-flow__node {
+    border: 2px solid #2ac673;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.react-flow__node:hover {
+    border-color: #ffffff;
+}
+
+.react-flow__edge-path {
+    stroke: #2ac673;
+}
+
+.react-flow__controls {
+    background-color: #2d2d2d !important;
+    border: 1px solid #2ac673;
+}
+
+.react-flow__controls-button {
+    color: #2ac673 !important;
+}
